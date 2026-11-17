@@ -1,0 +1,302 @@
+---
+import '@fontsource-variable/bricolage-grotesque/standard.css';
+import { site } from '../config';
+import { districts, suburbs, allSuburbs } from '../areas';
+
+const title = `Ślusarz w Twojej dzielnicy – Warszawa i okolice, 24h | ${site.name}`;
+const description = `Ślusarz z sąsiedztwa: otwieranie drzwi, aut i sejfów, wymiana zamków, serwis Gerda, klucze i stacyjki samochodowe. Każda dzielnica Warszawy i przedmieścia, całą dobę. Tel. ${site.phoneDisplay}.`;
+
+const services = [
+  { name: 'Otwieranie drzwi mieszkań', text: 'Wyszedłeś na chwilę z psem, drzwi się zatrzasnęły? To najczęstszy powód, dla którego do nas dzwonicie.' },
+  { name: 'Otwieranie samochodów', text: 'Kluczyk został w środku, auto stoi pod sklepem albo na osiedlowym parkingu. Przyjeżdżamy i otwieramy.' },
+  { name: 'Otwieranie sejfów', text: 'Domowe i firmowe sejfy, gdy szyfr albo klucz zawiodły.' },
+  { name: 'Stacyjki i immobilizery', text: 'Auto nie odpala, bo nie widzi kluczyka albo stacyjka się zablokowała. Naprawiamy na miejscu.' },
+  { name: 'Klucze samochodowe', text: 'Dorabiamy zapasowy kluczyk albo nowy, gdy stary przepadł. Z programowaniem.' },
+  { name: 'Zamki Gerda', text: 'Serwis i naprawa zamków Gerda, popularnych w warszawskich blokach i nowych drzwiach.' },
+  { name: 'Montaż i wymiana zamków', text: 'Nowy zamek po przeprowadzce, zgubieniu kluczy albo próbie włamania.' },
+];
+
+const callTips = [
+  { name: 'Adres', text: 'Ulica, numer, piętro. Na osiedlu przydaje się też numer klatki.' },
+  { name: 'Co się stało', text: 'Drzwi zatrzaśnięte, klucz złamany, zamek nie reaguje, auto zamknięte.' },
+  { name: 'Jaki to zamek', text: 'Jeśli widzisz nazwę na wkładce albo szyldzie, np. Gerda, podaj ją. Jeśli nie, nic się nie stało.' },
+  { name: 'Dokument', text: 'Przy otwieraniu mieszkania poprosimy o dokument z adresem albo umowę najmu.' },
+];
+
+const faq = [
+  { q: 'Czy dojedziecie na moje osiedle?', a: 'Tak. Obsługujemy każdą dzielnicę Warszawy oraz okolice i przedmieścia. Sprawdź swoją miejscowość w wyszukiwarce wyżej albo po prostu zadzwoń.' },
+  { q: 'Ile to kosztuje?', a: 'Cenę podajemy przez telefon, zanim wyjedziemy. Zależy od rodzaju zamka i tego, co trzeba zrobić.' },
+  { q: 'Jest środek nocy. Odbierzecie?', a: 'Tak. Telefon jest czynny całą dobę, także w weekendy i święta.' },
+  { q: 'Klucz złamał się w zamku. Co robić?', a: 'Nie próbuj wyciągać go na siłę, bo możesz wepchnąć go głębiej. Zadzwoń do nas, wyjmiemy go i sprawdzimy, czy wkładka nadaje się do dalszego użytku.' },
+];
+
+const arrows: Record<string, string> = { 'Północ': '↑', 'Wschód': '→', 'Południe': '↓', 'Zachód': '←' };
+
+const searchIndex = [
+  ...districts.map((n) => ({ n, t: 'dzielnica' })),
+  ...allSuburbs.map((n) => ({ n, t: 'okolica' })),
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Locksmith',
+  name: site.name,
+  telephone: site.phoneHref,
+  url: site.url,
+  openingHours: 'Mo-Su 00:00-23:59',
+  areaServed: [{ '@type': 'City', name: 'Warszawa' }, ...allSuburbs.map((n) => ({ '@type': 'City', name: n }))],
+  hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Usługi ślusarskie', itemListElement: services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.name } })) },
+};
+---
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={site.url + '/'} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#C4161C" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pl_PL" />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</head>
+<body>
+  <a class="skip" href="#tresc">Przejdź do treści</a>
+
+  <header class="top">
+    <a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>{site.name}</a>
+    <a class="pill" href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>
+  </header>
+
+  <main id="tresc">
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Ślusarz z Twojej okolicy. W każdej dzielnicy Warszawy i pod miastem.</h1>
+        <p>Otwieramy zatrzaśnięte drzwi, auta i sejfy, wymieniamy zamki i dorabiamy kluczyki do samochodów. Całą dobę, od Białołęki po Ursynów i od Bemowa po Wesołą.</p>
+        <a class="btn" href={`tel:${site.phoneHref}`}>Zadzwoń do ślusarza: {site.phoneDisplay}</a>
+      </div>
+      <div class="sign" aria-hidden="true">
+        <div class="sign-line">24</div>
+        <div class="sign-dest">
+          <span>Kierunek</span>
+          <strong>Twoje drzwi</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="check" aria-labelledby="h-check">
+      <h2 id="h-check">Czy dojedziecie do mnie?</h2>
+      <form class="finder" role="search" onsubmit="return false">
+        <label for="place">Wpisz dzielnicę albo miejscowość</label>
+        <div class="finder-row">
+          <input id="place" name="place" type="text" autocomplete="off" placeholder="np. Mokotów, Piaseczno, Ząbki" list="places" />
+          <datalist id="places">
+            {searchIndex.map((p) => <option value={p.n} />)}
+          </datalist>
+        </div>
+        <p class="finder-out" aria-live="polite" data-out>Obsługujemy każdą dzielnicę Warszawy oraz okolice i przedmieścia.</p>
+      </form>
+    </section>
+
+    <section class="lines" aria-labelledby="h-linie">
+      <h2 id="h-linie">Nasze trasy</h2>
+      <p class="lines-lede">Jeździmy po całej Warszawie i wokół niej. Każdy przystanek na tych liniach to miejsce, do którego dojeżdżamy.</p>
+
+      <h3 class="line-name"><span class="badge badge-red" aria-hidden="true">W</span>Linia miejska: wszystkie 18 dzielnic Warszawy</h3>
+      <ol class="route route-red">
+        {districts.map((d) => <li>{d}</li>)}
+      </ol>
+
+      {Object.entries(suburbs).map(([dir, list]) => (
+        <>
+          <h3 class="line-name"><span class="badge badge-yellow" aria-hidden="true">{arrows[dir]}</span>Linia podmiejska: {dir.toLowerCase()}</h3>
+          <ol class="route route-yellow">
+            {list.map((s) => <li>{s}</li>)}
+          </ol>
+        </>
+      ))}
+      <p class="lines-note">Nie ma Twojej miejscowości? Zadzwoń, okolice Warszawy obsługujemy szerzej niż te linie.</p>
+    </section>
+
+    <section class="services" aria-labelledby="h-uslugi">
+      <h2 id="h-uslugi">W czym pomagamy sąsiadom</h2>
+      <ul>
+        {services.map((s) => (
+          <li>
+            <h3>{s.name}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="tips" aria-labelledby="h-tips">
+      <h2 id="h-tips">Co powiedzieć przez telefon</h2>
+      <p class="tips-lede">Cztery informacje, dzięki którym przyjedziemy szybciej i z właściwymi narzędziami.</p>
+      <dl>
+        {callTips.map((t) => (
+          <div>
+            <dt>{t.name}</dt>
+            <dd>{t.text}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section class="faq" aria-labelledby="h-faq">
+      <h2 id="h-faq">Pytacie nas o to najczęściej</h2>
+      {faq.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p class="foot-brand">{site.name}</p>
+    <p>Ślusarz całodobowy. Każda dzielnica Warszawy, okolice i przedmieścia.</p>
+    <a class="btn btn-yellow" href={`tel:${site.phoneHref}`}>Zadzwoń: {site.phoneDisplay}</a>
+  </footer>
+
+  <a class="dock" href={`tel:${site.phoneHref}`}>Zadzwoń: {site.phoneDisplay}</a>
+
+  <script define:vars={{ searchIndex, phoneDisplay: site.phoneDisplay, phoneHref: site.phoneHref }}>
+    const input = document.getElementById('place');
+    const out = document.querySelector('[data-out]');
+    const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ł/g, 'l').trim();
+    const def = out.textContent;
+    input.addEventListener('input', () => {
+      const q = norm(input.value);
+      out.classList.remove('yes', 'maybe');
+      if (q.length < 2) { out.textContent = def; return; }
+      const hit = searchIndex.find((p) => norm(p.n) === q) || searchIndex.find((p) => norm(p.n).startsWith(q));
+      if (hit) {
+        out.classList.add('yes');
+        out.innerHTML = hit.t === 'dzielnica'
+          ? `<strong>${hit.n}</strong>: tak, to nasza dzielnica. Dzwoń: <a href="tel:${phoneHref}">${phoneDisplay}</a>`
+          : `<strong>${hit.n}</strong>: tak, dojeżdżamy. Dzwoń: <a href="tel:${phoneHref}">${phoneDisplay}</a>`;
+      } else {
+        out.classList.add('maybe');
+        out.innerHTML = `Nie mamy tej miejscowości na liście, ale jeśli leży pod Warszawą, najpewniej dojedziemy. Zapytaj: <a href="tel:${phoneHref}">${phoneDisplay}</a>`;
+      }
+    });
+  </script>
+</body>
+</html>
+
+<style is:global>
+  :root {
+    --red: #C4161C;
+    --red-dark: #9E1116;
+    --yellow: #F5C400;
+    --ink: #1D2433;
+    --muted: #4F5768;
+    --bg: #F1F2F4;
+    --white: #FFFFFF;
+    --font: 'Bricolage Grotesque Variable', system-ui, sans-serif;
+    --pad: clamp(1rem, 5vw, 4.5rem);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 1.0625rem; line-height: 1.6; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  h1, h2, h3 { margin: 0; line-height: 1.08; font-weight: 700; letter-spacing: -.02em; }
+  p { margin: 0; }
+
+  .skip { position: absolute; left: -999px; top: 0; background: var(--ink); color: #fff; padding: .75rem 1rem; z-index: 10; }
+  .skip:focus { left: 1rem; }
+
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem var(--pad); background: var(--white); }
+  .brand { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; font-size: 1.25rem; text-decoration: none; letter-spacing: -.01em; }
+  .brand-dot { width: 1.25rem; height: 1.25rem; border-radius: 50%; background: var(--yellow); box-shadow: inset 0 0 0 4px var(--red); }
+  .pill { text-decoration: none; font-weight: 700; background: var(--red); color: #fff; padding: .5rem 1rem; border-radius: 999px; white-space: nowrap; }
+  .pill:hover { background: var(--red-dark); }
+
+  .hero { background: var(--red); color: #fff; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 3rem; align-items: center; padding: clamp(3rem, 7vw, 6rem) var(--pad); }
+  .hero h1 { font-size: clamp(2.3rem, 5vw, 4.4rem); max-width: 18ch; font-weight: 800; }
+  .hero-text p { margin: 1.5rem 0 2.25rem; max-width: 50ch; font-size: 1.2rem; color: #FBE3E4; }
+
+  .btn { display: inline-block; background: var(--yellow); color: var(--ink); text-decoration: none; font-weight: 700; font-size: 1.1rem; padding: 1rem 1.6rem; border-radius: 14px; }
+  .btn:hover { background: #FFD633; }
+
+  /* Tablica kierunkowa jak na tramwaju */
+  .sign { display: flex; align-items: stretch; background: var(--ink); border-radius: 18px; padding: 1rem; gap: 1rem; transform: rotate(-2deg); box-shadow: 0 18px 40px rgba(0, 0, 0, .25); }
+  .sign-line { display: grid; place-items: center; min-width: 6.5rem; background: var(--yellow); color: var(--ink); font-weight: 800; font-size: 4.5rem; border-radius: 10px; letter-spacing: -.04em; }
+  .sign-dest { display: flex; flex-direction: column; justify-content: center; color: var(--yellow); }
+  .sign-dest span { font-size: 1rem; opacity: .8; }
+  .sign-dest strong { font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.05; font-weight: 800; }
+
+  section h2 { font-size: clamp(1.9rem, 3.6vw, 3rem); }
+
+  .check { background: var(--yellow); padding: clamp(2.5rem, 5vw, 4rem) var(--pad); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 2rem; align-items: center; }
+  .finder label { display: block; font-weight: 600; margin-bottom: .5rem; }
+  .finder input { width: 100%; font: inherit; font-size: 1.25rem; padding: 1rem 1.15rem; border: 3px solid var(--ink); border-radius: 14px; background: #fff; color: var(--ink); }
+  .finder input:focus { outline: none; box-shadow: 0 0 0 4px rgba(29, 36, 51, .25); }
+  .finder-out { margin-top: .9rem; min-height: 3.2em; }
+  .finder-out a { font-weight: 700; }
+  .finder-out.yes::before { content: '✓ '; font-weight: 800; color: #1F7A3A; }
+
+  .lines { padding: clamp(3.5rem, 7vw, 6rem) var(--pad); }
+  .lines-lede { margin: 1rem 0 2.5rem; max-width: 56ch; color: var(--muted); }
+  .line-name { display: flex; align-items: center; gap: .75rem; font-size: 1.2rem; margin: 2rem 0 1rem; }
+  .badge { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 8px; font-weight: 800; font-size: 1.1rem; }
+  .badge-red { background: var(--red); color: #fff; }
+  .badge-yellow { background: var(--yellow); color: var(--ink); }
+
+  /* Linia z przystankami */
+  .route { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; row-gap: 1.25rem; }
+  .route li { position: relative; padding: 1.4rem 1.25rem 0 0; font-weight: 600; white-space: nowrap; }
+  .route li::before { content: ''; position: absolute; left: 0; right: 0; top: .45rem; height: 6px; background: var(--line-c); }
+  .route li::after { content: ''; position: absolute; left: 0; top: 0; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: #fff; border: 4px solid var(--line-c); }
+  .route li:last-child::before { right: auto; width: 1rem; }
+  .route-red { --line-c: var(--red); }
+  .route-yellow { --line-c: var(--yellow); }
+  .lines-note { margin-top: 2.5rem; font-weight: 600; }
+
+  .services { background: var(--white); padding: clamp(3.5rem, 7vw, 6rem) var(--pad); }
+  .services h2 { margin-bottom: 2.5rem; }
+  .services ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: 1.25rem; }
+  .services li { background: var(--bg); border-radius: 18px; padding: 1.5rem; }
+  .services li:first-child { background: var(--red); color: #fff; }
+  .services li:first-child p { color: #FBE3E4; }
+  .services h3 { font-size: 1.35rem; margin-bottom: .5rem; }
+  .services p { color: var(--muted); }
+
+  .tips { padding: clamp(3.5rem, 7vw, 6rem) var(--pad); }
+  .tips-lede { margin: 1rem 0 2rem; color: var(--muted); max-width: 52ch; }
+  .tips dl { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; }
+  .tips dl > div { border-top: 6px solid var(--yellow); padding-top: 1rem; }
+  .tips dt { font-weight: 700; font-size: 1.25rem; margin-bottom: .35rem; }
+  .tips dd { margin: 0; color: var(--muted); }
+
+  .faq { padding: 0 var(--pad) clamp(3.5rem, 7vw, 6rem); max-width: 62rem; }
+  .faq h2 { margin-bottom: 1.5rem; }
+  .faq details { background: var(--white); border-radius: 14px; margin-bottom: .75rem; }
+  .faq summary { cursor: pointer; padding: 1.1rem 1.35rem; font-weight: 700; font-size: 1.1rem; }
+  .faq summary::marker { color: var(--red); }
+  .faq details p { padding: 0 1.35rem 1.25rem; color: var(--muted); max-width: 62ch; }
+
+  .foot { background: var(--ink); color: #fff; padding: 3rem var(--pad); display: grid; gap: .75rem; justify-items: start; }
+  .foot-brand { font-weight: 800; font-size: 1.5rem; }
+  .foot .btn { margin-top: 1rem; }
+
+  .dock { position: fixed; left: .75rem; right: .75rem; bottom: .75rem; z-index: 5; display: none; background: var(--yellow); color: var(--ink); text-align: center; text-decoration: none; font-weight: 800; padding: 1rem; border-radius: 14px; box-shadow: 0 6px 20px rgba(29, 36, 51, .3); }
+
+  @media (max-width: 960px) {
+    .hero, .check { grid-template-columns: 1fr; }
+    .sign { max-width: 26rem; }
+    .tips dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .tips dl { grid-template-columns: 1fr; }
+    .sign-line { min-width: 5rem; font-size: 3.5rem; }
+    .dock { display: block; }
+    .foot { padding-bottom: 6rem; }
+  }
+</style>
