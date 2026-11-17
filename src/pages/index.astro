@@ -1,5 +1,8 @@
 ---
 import '@fontsource-variable/bricolage-grotesque/standard.css';
+import { Image } from 'astro:assets';
+import doorPhoto from '../assets/zamek-drzwi.jpg';
+import keysPhoto from '../assets/klucze-w-zamku.jpg';
 import { site } from '../config';
 import { districts, suburbs, allSuburbs } from '../areas';
 
@@ -123,18 +126,26 @@ const schema = {
     </section>
 
     <section class="services" aria-labelledby="h-uslugi">
-      <h2 id="h-uslugi">W czym pomagamy sąsiadom</h2>
-      <ul>
-        {services.map((s) => (
-          <li>
-            <h3>{s.name}</h3>
-            <p>{s.text}</p>
-          </li>
-        ))}
-      </ul>
+      <Image class="services-photo" src={doorPhoto} alt="Uchylone drzwi z zamkiem wpuszczanym i kluczami w zamku" widths={[600, 900, 1200]} sizes="(min-width: 960px) 38vw, 92vw" />
+      <div class="services-body">
+        <h2 id="h-uslugi">W czym pomagamy sąsiadom</h2>
+        <div class="lead-service">
+          <h3>{services[0].name}</h3>
+          <p>{services[0].text}</p>
+        </div>
+        <dl>
+          {services.slice(1).map((s) => (
+            <div>
+              <dt>{s.name}</dt>
+              <dd>{s.text}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </section>
 
     <section class="tips" aria-labelledby="h-tips">
+      <Image class="tips-photo" src={keysPhoto} alt="Pęk kluczy w zamku drzwi" widths={[900, 1400, 2000]} sizes="92vw" />
       <h2 id="h-tips">Co powiedzieć przez telefon</h2>
       <p class="tips-lede">Cztery informacje, dzięki którym przyjedziemy szybciej i z właściwymi narzędziami.</p>
       <dl>
@@ -204,7 +215,10 @@ const schema = {
   }
   *, *::before, *::after { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 1.0625rem; line-height: 1.6; }
-  a { color: inherit; }
+  a { color: inherit; text-underline-offset: .2em; }
+  ::selection { background: var(--yellow); color: var(--ink); }
+  html { scrollbar-color: var(--red) var(--bg); }
+  body { caret-color: var(--red); }
   :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
   h1, h2, h3 { margin: 0; line-height: 1.08; font-weight: 700; letter-spacing: -.02em; }
   p { margin: 0; }
@@ -259,16 +273,19 @@ const schema = {
   .route-yellow { --line-c: var(--yellow); }
   .lines-note { margin-top: 2.5rem; font-weight: 600; }
 
-  .services { background: var(--white); padding: clamp(3.5rem, 7vw, 6rem) var(--pad); }
-  .services h2 { margin-bottom: 2.5rem; }
-  .services ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: 1.25rem; }
-  .services li { background: var(--bg); border-radius: 18px; padding: 1.5rem; }
-  .services li:first-child { background: var(--red); color: #fff; }
-  .services li:first-child p { color: #FBE3E4; }
-  .services h3 { font-size: 1.35rem; margin-bottom: .5rem; }
-  .services p { color: var(--muted); }
+  .services { background: var(--white); padding: clamp(3.5rem, 7vw, 6rem) var(--pad); display: grid; grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+  .services-photo { width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 16px; }
+  .services h2 { margin-bottom: 2rem; }
+  .lead-service { padding-bottom: 1.75rem; margin-bottom: .5rem; border-bottom: 3px solid var(--red); }
+  .lead-service h3 { font-size: clamp(1.6rem, 2.6vw, 2.1rem); color: var(--red); margin-bottom: .6rem; }
+  .lead-service p { font-size: 1.15rem; max-width: 50ch; }
+  .services dl { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2.5rem; }
+  .services dl > div { padding: 1.2rem 0; border-bottom: 1px solid #DDE0E5; }
+  .services dt { font-weight: 700; font-size: 1.2rem; margin-bottom: .3rem; }
+  .services dd { margin: 0; color: var(--muted); }
 
   .tips { padding: clamp(3.5rem, 7vw, 6rem) var(--pad); }
+  .tips-photo { display: block; width: 100%; height: auto; aspect-ratio: 21 / 8; object-fit: cover; border-radius: 16px; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
   .tips-lede { margin: 1rem 0 2rem; color: var(--muted); max-width: 52ch; }
   .tips dl { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; }
   .tips dl > div { border-top: 6px solid var(--yellow); padding-top: 1rem; }
@@ -292,11 +309,14 @@ const schema = {
     .hero, .check { grid-template-columns: 1fr; }
     .sign { max-width: 26rem; }
     .tips dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .services { grid-template-columns: 1fr; }
+    .services-photo { aspect-ratio: 16 / 10; }
+    .tips-photo { aspect-ratio: 16 / 9; }
   }
   @media (max-width: 640px) {
     .brand { font-size: 1.05rem; line-height: 1.2; }
     .pill { padding: .45rem .8rem; font-size: .95rem; }
-    .tips dl { grid-template-columns: 1fr; }
+    .tips dl, .services dl { grid-template-columns: 1fr; }
     .sign-line { min-width: 5rem; font-size: 3.5rem; }
     .dock { display: block; }
     .foot { padding-bottom: 6rem; }
