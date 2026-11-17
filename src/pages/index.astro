@@ -3,8 +3,8 @@ import '@fontsource-variable/bricolage-grotesque/standard.css';
 import { site } from '../config';
 import { districts, suburbs, allSuburbs } from '../areas';
 
-const title = `Ślusarz w Twojej dzielnicy – Warszawa i okolice, 24h | ${site.name}`;
-const description = `Ślusarz z sąsiedztwa: otwieranie drzwi, aut i sejfów, wymiana zamków, serwis Gerda, klucze i stacyjki samochodowe. Każda dzielnica Warszawy i przedmieścia, całą dobę. Tel. ${site.phoneDisplay}.`;
+const title = `Otwieranie drzwi Warszawa 24h – ślusarz w każdej dzielnicy i okolicach | ${site.name}`;
+const description = `Awaryjne otwieranie drzwi w Twojej dzielnicy: aut i sejfów, wymiana zamków, serwis Gerda, klucze i stacyjki samochodowe. Każda dzielnica Warszawy i przedmieścia, całą dobę. Tel. ${site.phoneDisplay}.`;
 
 const services = [
   { name: 'Otwieranie drzwi mieszkań', text: 'Wyszedłeś na chwilę z psem, drzwi się zatrzasnęły? To najczęstszy powód, dla którego do nas dzwonicie.' },
@@ -294,9 +294,12 @@ const schema = {
     .tips dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 640px) {
+    .brand { font-size: 1.05rem; line-height: 1.2; }
+    .pill { padding: .45rem .8rem; font-size: .95rem; }
     .tips dl { grid-template-columns: 1fr; }
     .sign-line { min-width: 5rem; font-size: 3.5rem; }
     .dock { display: block; }
     .foot { padding-bottom: 6rem; }
   }
+  .pill { white-space: nowrap; }
 </style>

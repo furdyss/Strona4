@@ -1,6 +1,6 @@
 // ⚠️ DANE DO UZUPEŁNIENIA przed publikacją
 export const site = {
-  name: 'Ślusarz z Sąsiedztwa',
+  name: 'Otwieranie Drzwi Warszawa',
   // Numer telefonu – podmień oba pola
   phoneDisplay: '000 000 000',
   phoneHref: '+48000000000',
